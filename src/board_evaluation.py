@@ -128,6 +128,7 @@ model = Catfish()
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
+print("start training")
 for epoch in range(3):
     model.train()
     for i, data in enumerate(loader):
@@ -137,8 +138,10 @@ for epoch in range(3):
         loss.backward()
         optimizer.step()
     print("epoch:", epoch, "loss:", loss.item())
+    torch.save(model.state_dict(), f"catfish_epoch_{epoch}.pt")
+print("training done")
     
-torch.save(model.state_dict(), MODEL_PATH)
+#torch.save(model.state_dict(), MODEL_PATH)
 
 train_df = df.sample(frac=0.8, random_state=42)
 test_df = df.drop(train_df.index)
